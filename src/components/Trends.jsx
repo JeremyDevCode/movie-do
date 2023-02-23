@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 
-function Trends() {
+function Trends({favoriteStatus,  addMovie, deleteMovie, findMovies}) {
     const [movieId, setMovieId] = useState();
 
     const [trending, setTrending] = useState();
@@ -20,7 +20,7 @@ function Trends() {
   return (
     <>
         {trending?.map((trend) => 
-            <div onMouseEnter={() => setMovieId(trend.id)} onMouseLeave={() => setMovieId()}
+            <div onMouseEnter={() => {setMovieId(trend.id); findMovies(trend.id);}} onMouseLeave={() => setMovieId()}
             className={`mr-[5px] bg-black  hover:scale-125`}
             key = {trend.id}
             >
@@ -33,7 +33,7 @@ function Trends() {
                 alt={`alt ${trend.title}`}
               />
             { trend.id === movieId && (
-              <div className='absolute bottom-5 text-white text-xs ml-2 font-medium'>
+              <div className='absolute ml-2 text-xs font-medium text-white bottom-5'>
                 <div>
                   {trend.title}
                 </div>
@@ -44,9 +44,15 @@ function Trends() {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </Link>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                  <path fillRule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
-                </svg>
+                { favoriteStatus ? (
+                  <svg onClick={() => deleteMovie(trend.id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 cursor-pointer">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                ) : (
+                  <svg onClick={() => addMovie(trend.id, trend.title, trend.backdrop_path)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 cursor-pointer">
+                    <path fillRule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
+                  </svg>
+                )}
                 </div>
               </div>
 

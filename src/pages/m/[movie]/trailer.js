@@ -53,7 +53,14 @@ const Trailer = () => {
                         </Link>
                     </div>
                     <div className='flex justify-center mt-5'>
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/hxJyt1oDyOA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        <Link href={`https://www.youtube.com/results?search_query=${movieData?.title} trailer`} target='_blank'>
+                            <div className='flex flex-col items-center justify-center gap-5'>
+                                <h2>
+                                    {movieData?.title}
+                                </h2>
+                                <Image className='rounded-xl w-[300px] h-[169px] object-contain' src={`https://image.tmdb.org/t/p/w300${movieData?.backdrop_path}`} priority={true} width={300} height={169} alt={`movie ${movieData?.original_title}`} />
+                            </div>
+                        </Link>
                    </div>
                 </div>
             </div>

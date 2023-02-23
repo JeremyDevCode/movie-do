@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 function Featured({type}) {
@@ -15,19 +16,19 @@ function Featured({type}) {
     }, [])    
 
   return (
-    <div className='text-white h-4/5 relative'>
-            {type && (
+    <div className='relative mb-5 text-white h-4/5'>
+            {/* {type && (
                 <div className='flex items-center absolute top-20 left-[50px] text-white'>
                     <span className='text-3xl font-medium'>{type === "movie" ? "Movies" : "Series"}</span>
-                    <select className='cursor-pointer bg-black border ml-5 p-1' name='genre' defaultValue={"genre"}>
+                    <select className='p-1 ml-5 bg-black border cursor-pointer' name='genre' defaultValue={"genre"}>
                         <option value="genre" hidden>Genre</option>
                         {category?.map((genre) => 
                             <option key={genre.id} value={genre.name}>{genre.name}</option>
                         )}
                     </select>
                 </div>
-            )}
-        <img className='w-screen h-full object-cover' src='https://wallpapercave.com/wp/iptrxid.jpg' alt='movie'/>
+            )} */}
+        <img className='object-cover w-screen h-full' src='https://wallpapercave.com/wp/iptrxid.jpg' alt='movie'/>
         <div className='flex flex-col w-[35%] absolute left-12 bottom-24'>
             <img src='https://occ-0-1722-92.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABUn_IBh6aDMLjcuyEIOgsXFGdLIkF0VtkGlkHZXTQISEIhtXAmXnNTZ11D4PQbUuqNwWQS6CtXLSwkys1EDXQtl0Gz8cLQhZeHUO.png'/>
             <span className='my-5'>El director de la Agencia SHIELD decide reclutar a un equipo para salvar al mundo de un desastre casi seguro cuando un enemigo inesperado surge como una gran amenaza para la seguridad mundial.</span>
@@ -41,12 +42,12 @@ function Featured({type}) {
                 </button>
 
                 
-                <button className='flex justify-center items-center text-lg font-medium h-[40px] w-[150px] mr-2.5 px-2.5 py-5 border-none rounded bg-[#808080B3] text-white'>
+                <Link href={'/list/'} className='flex justify-center items-center text-lg font-medium h-[40px] w-[150px] mr-2.5 px-2.5 py-5 border-none rounded bg-[#808080B3] text-white'>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
                     <span className='ml-1'>My list</span>
-                </button>
+                </Link>
             </div>
         </div>
     </div>

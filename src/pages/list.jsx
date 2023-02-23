@@ -1,13 +1,16 @@
 import { Navbar } from 'components/Navbar'
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
+import { useMovies } from 'services/useMovies';
 
 function discover() {
     const [movieData, setMovieData] = useState();
-    const [searchedMovies, setSearchedMovies] = useState();
     const [movieId, setMovieId] = useState();
+    const { state, stateUpdaters } = useMovies();
+    const { movies, loading } = state;
+    const { deleteMovie } = stateUpdaters;
+
     useEffect(() => {
         async function getMovies() {
             const res = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=' + process.env.NEXT_PUBLIC_API_KEY + '&page=1');
@@ -49,22 +52,16 @@ function discover() {
         getMovies();
     }, [])
 
-    async function getMoviesBySearch(query) {
-        const res = await fetch('https://api.themoviedb.org/3/search/movie?api_key=' + process.env.NEXT_PUBLIC_API_KEY + '&query=' + query);
-        const data = await res.json();
-        console.log(data);
-        setSearchedMovies(data.results);
-    }
    
+    
     return (
-        <div className='bg-black w-full h-full pb-10'>
+        <div className='w-full h-full pb-10 bg-black'>
+            <div className='fixed w-screen h-screen bg-black -z-50'></div>
             <Navbar/>
             <div className='flex justify-center pt-28'>
-            
-                <input className='absolute text-white top-7 right-52 w-32 z-50 bg-transparent placeholder:text-white' onChange={(e) => getMoviesBySearch(e?.target?.value)} type='text' placeholder='Search'/>
             </div>
             <div className='flex flex-wrap items-center justify-center gap-5'>
-                {(!searchedMovies ? movieData : searchedMovies)?.map((movie) => 
+                {!loading && (movies[0] !== undefined ? (movies)?.map((movie) => 
                     <div 
                         onMouseEnter={() => setMovieId(movie.id)} onMouseLeave={() => setMovieId()} 
                         className={`group/movie mr-[5px] bg-black  hover:scale-125`}
@@ -72,7 +69,7 @@ function discover() {
                     >
                     {movie.backdrop_path !== null && (
                         <Image 
-                            src={`https://image.tmdb.org/t/p/w300${movie.backdrop_path}`} 
+                            src={`https://image.tmdb.org/t/p/w300${movie.image}`} 
                             className='w-full h-[120px]'
                             width={300} 
                             height={169} 
@@ -81,7 +78,7 @@ function discover() {
                         />
                     )}
                         { movie.id === movieId && (
-                        <div className='group-hover/movie:block absolute hidden bottom-5 text-white text-xs ml-2 font-medium'>
+                        <div className='absolute hidden ml-2 text-xs font-medium text-white group-hover/movie:block bottom-5'>
                             <div>
                             {movie.title}
                             </div>
@@ -92,14 +89,14 @@ function discover() {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                             </Link>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                            <path fillRule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clipRule="evenodd" />
+                            <svg onClick={() => deleteMovie(movie.id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 cursor-pointer">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                             </div>
                         </div>
                         )}
                     </div>
-                )}   
+                ) : <p className='text-white'>It looks like you haven't saved any movies to your list yet</p>)}   
             </div>
         </div>
                                 

@@ -71,9 +71,9 @@ const Movie = () => {
                             </div>
                             <div className='flex items-center justify-between'>
                                 <p>Created by</p>
-                                <div className='flex flex-wrap items-center justify-start gap-5 w-4/5 text-white'>
+                                <div className='flex flex-wrap items-center justify-start gap-5 w-4/5 text-black'>
                                     {movieData?.production_companies?.map(({id, name, logo_path}) => (
-                                            <img key={id} className='h-[25px] saturate-0 invert' src={`https://image.tmdb.org/t/p/w500${logo_path}`} alt={`Company ${name}`}/>
+                                            <img key={id} className='h-[25px] saturate-0 invert font-semibold' src={`https://image.tmdb.org/t/p/w500${logo_path}`} alt={`Company ${name}`}/>
                                     ))}
                                 </div>    
                             </div>

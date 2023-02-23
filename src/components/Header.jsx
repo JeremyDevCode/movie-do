@@ -3,10 +3,11 @@ import { Featured } from './Featured'
 import { Navbar } from './Navbar'
 
 function Header() {
+
   return (
     <>
       <Navbar/>
-      <Featured type={"movie"}/>
+      <Featured/>
     </>
   )
 }
